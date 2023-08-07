@@ -14,6 +14,7 @@ final class AuthManager {
     struct Constants {
         static let clientID = "6566e210303c4325b6736b909fdcdcef"
         static let clientSecret = "2753f8d7da084bca8af8a0c0a670cfa3"
+        static let tokenAPIURL = "https://accounts.spotify.com/api/token"
     }
     
     private init() {}
@@ -22,7 +23,6 @@ final class AuthManager {
         let redirectURI = "https://localhost:8080"
         let scopes = "user-read-private"
         
-        
         let baseURL = "https://accounts.spotify.com/authorize"
         let fullURL = "\(baseURL)?response_type=code&client_id=\(Constants.clientID)&scope=\(scopes)&redirect_uri=\(redirectURI)&show_dialog=TRUE"
         
@@ -30,23 +30,91 @@ final class AuthManager {
     }
     
     var isSignedIn: Bool {
-        return false
+        return accessToken != nil
     }
     
     private var accessToken: String? {
-        return nil
+        return UserDefaults.standard.string(forKey: "access_token")
     }
     
     private var refreshToken: String? {
-        return nil
+        return UserDefaults.standard.string(forKey: "refresh_token")
     }
     
     private var tokenExpirationDate: Date? {
-        return nil
+        return UserDefaults.standard.object(forKey: "expiration_date") as? Date
     }
     
     private var shouldRefreshToken: Bool {
-        return false
+        guard let expirationDate = tokenExpirationDate else { return false }
+        let currentDate = Date()
+        let fiveMinutes: TimeInterval = 300
+        
+        // refresh tokens when there's <5 mins left for the tokens
+        return currentDate.addingTimeInterval(fiveMinutes) >= expirationDate
+    }
+    
+    private func cacheToken(result: AuthResponse) {
+        UserDefaults.standard.setValue(result.access_token, forKey: "access_token")
+        UserDefaults.standard.setValue(result.refresh_token, forKey: "refresh_token")
+        UserDefaults.standard.setValue(Date().addingTimeInterval(TimeInterval(result.expires_in)), forKey: "expiration_date")
+    }
+    
+    private func makeTokenRequest(url: URL, code: String) -> URLRequest? {
+        
+        var components = URLComponents()
+        components.queryItems = [
+            URLQueryItem(name: "grant_type", value: "authorization_code"),
+            URLQueryItem(name: "code", value: code),
+            URLQueryItem(name: "redirect_uri", value: "https://localhost:8080")
+        ]
+        
+        let basicToken = Constants.clientID + ":" + Constants.clientSecret
+        let basicData = basicToken.data(using: .utf8)
+        guard let basic64String = basicData?.base64EncodedString() else {
+            print("Failed to get base64 basic string")
+            return nil
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = components.query?.data(using: .utf8)
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.setValue("Basic \(basic64String)", forHTTPHeaderField: "Authorization")
+        
+        return request
+    }
+    
+    public func exchangeCodeForToken(code: String, completion: @escaping ((Bool) -> Void)) {
+        
+        guard let url = URL(string: Constants.tokenAPIURL) else { return }
+        
+        let request = makeTokenRequest(url: url, code: code)
+        guard let request = request else {
+            completion(false)
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
+            guard let data = data,
+                  error == nil else {
+                completion(false)
+                return
+            }
+            
+            do {
+                let result = try JSONDecoder().decode(AuthResponse.self, from: data)
+                self?.cacheToken(result: result)
+                completion(true)
+            } catch {
+                print(error.localizedDescription)
+                completion(false)
+            }
+            
+        }
+        
+        task.resume()
+        
     }
     
     
