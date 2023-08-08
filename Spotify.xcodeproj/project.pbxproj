@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D178E682A81B95E00F9F832 /* SettingsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D178E672A81B95E00F9F832 /* SettingsModels.swift */; };
 		8D8D47392A80C49C00A1DE4E /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8D47382A80C49C00A1DE4E /* AuthResponse.swift */; };
 		8DF33AD52A80496400B05190 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF33AD42A80496400B05190 /* AppDelegate.swift */; };
 		8DF33AD72A80496400B05190 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF33AD62A80496400B05190 /* SceneDelegate.swift */; };
@@ -54,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8D178E672A81B95E00F9F832 /* SettingsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModels.swift; sourceTree = "<group>"; };
 		8D8D47382A80C49C00A1DE4E /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 		8DF33AD12A80496400B05190 /* Spotify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spotify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DF33AD42A80496400B05190 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				8DF33B2A2A804DE500B05190 /* AudioTrack.swift */,
 				8DF33B2C2A804DE800B05190 /* Artist.swift */,
 				8DF33B2E2A804DF600B05190 /* UserProfile.swift */,
+				8D178E672A81B95E00F9F832 /* SettingsModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 				8DF33B312A805B3A00B05190 /* Extensions.swift in Sources */,
 				8DF33B212A804D8600B05190 /* SearchViewController.swift in Sources */,
 				8DF33B2D2A804DE800B05190 /* Artist.swift in Sources */,
+				8D178E682A81B95E00F9F832 /* SettingsModels.swift in Sources */,
 				8DF33B1F2A804D5700B05190 /* PlaylistViewController.swift in Sources */,
 				8DF33AD72A80496400B05190 /* SceneDelegate.swift in Sources */,
 				8DF33B1D2A804D5300B05190 /* PlayerViewController.swift in Sources */,

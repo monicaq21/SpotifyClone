@@ -8,22 +8,93 @@
 import UIKit
 
 class SettingsViewController: UIViewController {
+    
+    private let tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        return tableView
+    }()
+    
+    private var sections = [Section]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        title = "Settings"
+        view.backgroundColor = .systemBackground
+        view.addSubview(tableView)
+        tableView.dataSource = self
+        tableView.delegate = self
+        navigationItem.largeTitleDisplayMode = .never
+        
+        configureModels()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.frame = view.bounds
     }
-    */
+    
+    private func configureModels() {
+        sections.append(
+            Section(title: "Profile", options: [
+                Option(title: "View Your Profile", handler: { [weak self] in
+                    DispatchQueue.main.async {
+                        self?.viewProfile()
+                    }
+                })
+            ])
+        )
+        
+        sections.append(
+            Section(title: "Account", options: [
+                Option(title: "Sign Out", handler: { [weak self] in
+                    DispatchQueue.main.async {
+                        self?.signOutTapped()
+                    }
+                })
+            ])
+        )
+    }
+    
+    private func viewProfile() {
+        let vc = ProfileViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func signOutTapped() {
+        // to implement xxx
+    }
 
+}
+
+extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        self.sections.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        self.sections[section].options.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let model = self.sections[indexPath.section].options[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.text = model.title
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.sections[section].title
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        // call handler for call
+        let model = sections[indexPath.section].options[indexPath.row]
+        model.handler()
+    }
+    
+    
 }

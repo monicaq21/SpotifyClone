@@ -33,6 +33,8 @@ final class AuthManager {
         return accessToken != nil
     }
     
+    private var refreshingToken = false
+    
     private var accessToken: String? {
         return UserDefaults.standard.string(forKey: "access_token")
     }
@@ -143,12 +145,37 @@ final class AuthManager {
         return request
     }
     
+    private var onRefreshBlocks = [((String) -> Void)]()
+    
+    public func withValidToken(completion: @escaping ((String) -> Void)) {
+        
+        if shouldRefreshToken {
+            refreshIfNeeded { [weak self] success in
+                if let token = self?.accessToken, success {
+                    completion(token)
+                }
+            }
+        } else if let token = accessToken {
+            completion(token)
+        }
+        
+    }
+    
     public func refreshIfNeeded(completion: @escaping ((Bool) -> Void)) {
+        
+        guard !refreshingToken else { return }
+        
+        guard shouldRefreshToken else {
+            completion(true)
+            return
+        }
         
         guard let refreshToken = refreshToken else { return }
         
         // refresh the token
         guard let url = URL(string: Constants.tokenAPIURL) else { return }
+        
+        refreshingToken = true
         
         let request = makeRefreshRequest(url: url, refreshToken: refreshToken)
         guard let request = request else {
@@ -157,6 +184,9 @@ final class AuthManager {
         }
         
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
+            
+            self?.refreshingToken = false
+            
             guard let data = data,
                   error == nil else {
                 completion(false)
@@ -165,6 +195,8 @@ final class AuthManager {
             
             do {
                 let result = try JSONDecoder().decode(AuthResponse.self, from: data)
+                self?.onRefreshBlocks.forEach { $0(result.access_token) } // call all completions for refresh requests
+                self?.onRefreshBlocks.removeAll()
                 self?.cacheToken(result: result)
                 completion(true)
             } catch {
