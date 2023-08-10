@@ -7,6 +7,7 @@
 
 import Foundation
 
+// self - displaying profile
 struct UserProfile: Codable {
     let country: String
     let display_name: String
@@ -16,9 +17,12 @@ struct UserProfile: Codable {
 //    let followers: [String: Codable?]
     let id: String
     let product: String
-    let images: [UserImage]
+    let images: [APIImage]
 }
 
-struct UserImage: Codable {
-    let url: String
+// general profile
+struct User: Codable {
+    let display_name: String
+    let external_urls: [String: String]
+    let id: String
 }
