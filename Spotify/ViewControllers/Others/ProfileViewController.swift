@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage // profile image
 
 class ProfileViewController: UIViewController {
     
@@ -57,8 +58,27 @@ class ProfileViewController: UIViewController {
         models.append("Email Address: \(model.email)")
         models.append("User ID: \(model.id)")
         models.append("Plan: \(model.product)")
+        createTableHeader(with: model.images.first?.url)
         
         tableView.reloadData()
+    }
+    
+    private func createTableHeader(with string: String?) {
+        guard let string = string,
+              let url = URL(string: string) else { return }
+        
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.width, height: view.width/1.5))
+        
+        let imageSize = headerView.height / 2
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: imageSize, height: imageSize))
+        headerView.addSubview(imageView)
+        imageView.center = headerView.center
+        imageView.contentMode = .scaleAspectFit
+        imageView.sd_setImage(with: url)
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = imageSize / 2 // round circle
+        
+        tableView.tableHeaderView = headerView
     }
     
     private func failedToGetProfile() {
