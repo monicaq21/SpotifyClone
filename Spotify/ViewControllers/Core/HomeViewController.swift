@@ -9,8 +9,8 @@ import UIKit
 
 enum BrowseSectionType {
     case newReleases(viewModels: [NewReleasesCellViewModel]) // 1
-    case featuredPlaylists(viewModels: [NewReleasesCellViewModel]) // 2
-    case recommendedTracks(viewModels: [NewReleasesCellViewModel]) // 3
+    case featuredPlaylists(viewModels: [FeaturedPlaylistCellViewModel]) // 2
+    case recommendedTracks(viewModels: [RecommendedTrackCellViewModel]) // 3
 }
 
 class HomeViewController: UIViewController {
@@ -294,8 +294,22 @@ class HomeViewController: UIViewController {
             )
         })))
         
-        sections.append(.featuredPlaylists(viewModels: []))
-        sections.append(.recommendedTracks(viewModels: []))
+        sections.append(.featuredPlaylists(viewModels: playlists.compactMap({ playlist in
+            return FeaturedPlaylistCellViewModel(
+                name: playlist.name,
+                artworkURL: URL(string: playlist.images.first?.url ?? ""),
+                creatorName: playlist.owner.display_name
+            )
+        })))
+        
+        sections.append(.recommendedTracks(viewModels: tracks.compactMap({ track in
+            return RecommendedTrackCellViewModel(
+                name: track.name,
+                artworkURL: URL(string: track.album.images.first?.url ?? ""),
+                artistName: track.artists.first?.name ?? "-"
+            )
+        })))
+        
         collectionView.reloadData()
     }
     
@@ -339,7 +353,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             let viewModel = viewModels[indexPath.row]
             cell.configure(with: viewModel)
             
-            cell.backgroundColor = .gray
             return cell
             
         case .featuredPlaylists(viewModels: let viewModels):
@@ -347,8 +360,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             else { return UICollectionViewCell() }
             
             let viewModel = viewModels[indexPath.row]
+            cell.configure(with: viewModel)
             
-            cell.backgroundColor = .blue
             return cell
             
         case .recommendedTracks(viewModels: let viewModels):
@@ -356,6 +369,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             else { return UICollectionViewCell() }
             
             let viewModel = viewModels[indexPath.row]
+            cell.configure(with: viewModel)
             
             cell.backgroundColor = .red
             return cell
