@@ -152,7 +152,7 @@ class HomeViewController: UIViewController {
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .absolute(60)
+                    heightDimension: .fractionalHeight(1.0)
                 )
             )
             
