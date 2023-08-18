@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: - Playlist VC
 class PlaylistViewController: UIViewController {
 
     private let playlist: Playlist
@@ -103,6 +104,24 @@ class PlaylistViewController: UIViewController {
                 }
             }
         }
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(didTapShare)
+        )
+    }
+    
+    @objc private func didTapShare() {
+        guard let url = URL(string: playlist.external_urls["spotify"] ?? "") else {
+            return
+        }
+        let vc = UIActivityViewController(
+            activityItems: [url],
+            applicationActivities: []
+        )
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(vc, animated: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -155,6 +174,7 @@ extension PlaylistViewController: UICollectionViewDataSource, UICollectionViewDe
             artworkURL: URL(string: playlist.images.first?.url ?? "")
         )
         header.configure(with: headerViewModel)
+        header.delegate = self
         
         return header
                 
@@ -164,5 +184,14 @@ extension PlaylistViewController: UICollectionViewDataSource, UICollectionViewDe
         collectionView.deselectItem(at: indexPath, animated: true)
         // xxx play song
     }
+    
+}
+
+// MARK: - Header Delegate
+extension PlaylistViewController: PlaylistHeaderCollectionReusableViewDelegate {
+    func didTapPlayAll(_ header: PlaylistHeaderCollectionReusableView) {
+        print("play all")
+    }
+    
     
 }

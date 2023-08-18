@@ -8,8 +8,14 @@
 import UIKit
 import SDWebImage
 
+protocol PlaylistHeaderCollectionReusableViewDelegate: AnyObject {
+    func didTapPlayAll(_ header: PlaylistHeaderCollectionReusableView)
+}
+
 final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
     static let identifier = "PlaylistHeaderCollectionReusableView"
+    
+    weak var delegate: PlaylistHeaderCollectionReusableViewDelegate?
     
     private let nameLabel: UILabel = {
         let label = UILabel()
@@ -39,6 +45,22 @@ final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
         return imageView
     }()
     
+    private let playAllButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .systemGreen
+        let image = UIImage(
+            systemName: "play.fill", withConfiguration: UIImage.SymbolConfiguration(
+                pointSize: 30,
+                weight: .regular
+            )
+        )
+        button.setImage(image, for: .normal)
+        button.tintColor = .white
+        button.layer.cornerRadius = 30
+        button.layer.masksToBounds = true
+        return button
+    }()
+    
     // MARK: - init
     
     override init(frame: CGRect) {
@@ -49,10 +71,16 @@ final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
         addSubview(descriptionLabel)
         addSubview(ownerLabel)
         addSubview(imageView)
+        addSubview(playAllButton)
+        playAllButton.addTarget(self, action: #selector(didTapPlayAllButton), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
         fatalError()
+    }
+    
+    @objc private func didTapPlayAllButton() {
+        delegate?.didTapPlayAll(self)
     }
     
     override func layoutSubviews() {
@@ -85,6 +113,13 @@ final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
             y: descriptionLabel.bottom,
             width: width - 20,
             height: 44
+        )
+        
+        playAllButton.frame = CGRect(
+            x: width - 80,
+            y: height - 80,
+            width: 60,
+            height: 60
         )
     }
     
