@@ -177,6 +177,61 @@ final class APICaller {
         }
     }
     
+    // MARK: - Category
+    
+    public func getCategories(completion: @escaping (Result<[Category], Error>) -> Void) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/categories"),
+                      type: .GET
+        ) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                
+                do {
+                    let model = try JSONDecoder().decode(AllCategoriesResponse.self, from: data)
+                    completion(.success(model.categories.items))
+                } catch {
+                    print(error)
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    public func getCategoryPlaylists(category: Category, completion: @escaping (Result<[Playlist], Error>) -> Void) {
+        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/categories/\(category.id)/playlists?limit=20"),
+                      type: .GET
+        ) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                
+                do {
+                    let model = try JSONDecoder().decode(CategoryPlaylistsResponse.self, from: data)
+                    
+                    // returned data can have nil playlist element, so do a small conversion here.
+                    let optionalPlaylists = model.playlists.items
+                    var playlists = [Playlist]()
+                    for optionalPlaylist in optionalPlaylists {
+                        if let optionalPlaylist = optionalPlaylist {
+                            playlists.append(optionalPlaylist)
+                        }
+                    }
+                    
+                    completion(.success(playlists))
+                } catch {
+                    print(error)
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
     
     // MARK: - Profile
     
