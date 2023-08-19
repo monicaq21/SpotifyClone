@@ -169,7 +169,7 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
 // MARK: - Header Delegate
 extension AlbumViewController: PlaylistHeaderCollectionReusableViewDelegate {
     func didTapPlayAll(_ header: PlaylistHeaderCollectionReusableView) {
-        print("play all")
+        // xxx play all
     }
 
 }
