@@ -1,16 +1,16 @@
 //
-//  SearchResultDefaultTableViewCell.swift
+//  SearchResultSubtitleTableViewCell.swift
 //  Spotify
 //
-//  Created by Monica Qiu on 8/19/23.
+//  Created by Monica Qiu on 8/20/23.
 //
 
 import UIKit
 import SDWebImage
 
-class SearchResultDefaultTableViewCell: UITableViewCell {
+class SearchResultSubtitleTableViewCell: UITableViewCell {
     
-    static let identifier = "SearchResultDefaultTableViewCell"
+    static let identifier = "SearchResultSubtitleTableViewCell"
     
     private var iconImageView: UIImageView = {
         let imageView = UIImageView()
@@ -23,12 +23,20 @@ class SearchResultDefaultTableViewCell: UITableViewCell {
         label.numberOfLines = 1
         return label
     }()
+    
+    private var subtitleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .secondaryLabel
+        label.numberOfLines = 1
+        return label
+    }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(iconImageView)
         contentView.addSubview(titleLabel)
+        contentView.addSubview(subtitleLabel)
         contentView.clipsToBounds = true
         accessoryType = .disclosureIndicator
     }
@@ -51,11 +59,20 @@ class SearchResultDefaultTableViewCell: UITableViewCell {
         iconImageView.layer.cornerRadius = imageSize / 2
         iconImageView.layer.masksToBounds = true
         
+        let labelHeight = contentView.height / 2
+        
         titleLabel.frame = CGRect(
             x: iconImageView.right + 10,
             y: 0,
             width: contentView.width - iconImageView.right - 15, // 10 on left, 5 on right
-            height: contentView.height
+            height: labelHeight
+        )
+        
+        subtitleLabel.frame = CGRect(
+            x: iconImageView.right + 10,
+            y: titleLabel.bottom,
+            width: contentView.width - iconImageView.right - 15, // 10 on left, 5 on right
+            height: labelHeight
         )
     }
     
@@ -64,12 +81,14 @@ class SearchResultDefaultTableViewCell: UITableViewCell {
         
         iconImageView.image = nil
         titleLabel.text = nil
+        subtitleLabel.text = nil
     }
     
-    func configure(with viewModel: SearchResultDefaultTableViewCellViewModel) {
+    func configure(with viewModel: SearchResultSubtitleTableViewCellViewModel) {
         
         iconImageView.sd_setImage(with: viewModel.imageURL, completed: nil)
         titleLabel.text = viewModel.title
+        subtitleLabel.text = viewModel.subtitle
         
     }
 
