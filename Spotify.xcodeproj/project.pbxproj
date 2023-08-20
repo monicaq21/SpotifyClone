@@ -33,6 +33,7 @@
 		8D4D607B2A90872D004AC84C /* AllCategoriesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4D607A2A90872D004AC84C /* AllCategoriesResponse.swift */; };
 		8D4D607D2A908A72004AC84C /* CategoryCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4D607C2A908A72004AC84C /* CategoryCollectionViewCellViewModel.swift */; };
 		8D4D60802A908C16004AC84C /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4D607F2A908C16004AC84C /* CategoryViewController.swift */; };
+		8D4D60822A91B951004AC84C /* SearchResultResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4D60812A91B951004AC84C /* SearchResultResponse.swift */; };
 		8D8D47392A80C49C00A1DE4E /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8D47382A80C49C00A1DE4E /* AuthResponse.swift */; };
 		8DF33AD52A80496400B05190 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF33AD42A80496400B05190 /* AppDelegate.swift */; };
 		8DF33AD72A80496400B05190 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF33AD62A80496400B05190 /* SceneDelegate.swift */; };
@@ -106,6 +107,7 @@
 		8D4D607A2A90872D004AC84C /* AllCategoriesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesResponse.swift; sourceTree = "<group>"; };
 		8D4D607C2A908A72004AC84C /* CategoryCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		8D4D607F2A908C16004AC84C /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		8D4D60812A91B951004AC84C /* SearchResultResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultResponse.swift; sourceTree = "<group>"; };
 		8D8D47382A80C49C00A1DE4E /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 		8DF33AD12A80496400B05190 /* Spotify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spotify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DF33AD42A80496400B05190 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				8D4D60532A84C83C004AC84C /* RecommendedGenresResponse.swift */,
 				8D4D60552A84CA2C004AC84C /* RecommendationsResponse.swift */,
 				8D4D607A2A90872D004AC84C /* AllCategoriesResponse.swift */,
+				8D4D60812A91B951004AC84C /* SearchResultResponse.swift */,
 			);
 			path = APIResponses;
 			sourceTree = "<group>";
@@ -615,6 +618,7 @@
 				8D4D607B2A90872D004AC84C /* AllCategoriesResponse.swift in Sources */,
 				8DF33B1D2A804D5300B05190 /* PlayerViewController.swift in Sources */,
 				8DF33B252A804DAB00B05190 /* TabBarViewController.swift in Sources */,
+				8D4D60822A91B951004AC84C /* SearchResultResponse.swift in Sources */,
 				8D4D60512A84C603004AC84C /* Album.swift in Sources */,
 				8DF33B192A804D4200B05190 /* SettingsViewController.swift in Sources */,
 				8D4D60802A908C16004AC84C /* CategoryViewController.swift in Sources */,

@@ -258,6 +258,51 @@ final class APICaller {
         }
     }
     
+    // MARK: - Search
+    
+    public func search(with query: String, completion: @escaping (Result<[SearchResult], Error>) -> Void) {
+        
+        let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        let type = "album,artist,playlist,track"
+        let urlString = Constants.baseAPIURL + "/search?type=\(type)&q=\(encodedQuery)"
+        
+        createRequest(with: URL(string: urlString),
+                      type: .GET
+        ) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                
+                do {
+                    let model = try JSONDecoder().decode(SearchResultResponse.self, from: data)
+                    
+                    var searchResults = [SearchResult]()
+                    searchResults.append(contentsOf: model.albums.items.compactMap({ album in
+                        SearchResult.album(model: album)
+                    }))
+                    searchResults.append(contentsOf: model.artists.items.compactMap({ artist in
+                        SearchResult.artist(model: artist)
+                    }))
+                    searchResults.append(contentsOf: model.playlists.items.compactMap({ playlist in
+                        SearchResult.playlist(model: playlist)
+                    }))
+                    searchResults.append(contentsOf: model.tracks.items.compactMap({ track in
+                        SearchResult.track(model: track)
+                    }))
+                    
+                    completion(.success(searchResults))
+                } catch {
+                    print(error)
+                    completion(.failure(error))
+                }
+                
+            }
+            task.resume()
+        }
+    }
+    
     // MARK: - General
     
     func createRequest(with url: URL?,
