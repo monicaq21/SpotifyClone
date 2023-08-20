@@ -264,7 +264,8 @@ final class APICaller {
         
         let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         let type = "album,artist,playlist,track"
-        let urlString = Constants.baseAPIURL + "/search?type=\(type)&q=\(encodedQuery)"
+        let limit = 10 // max results per section
+        let urlString = Constants.baseAPIURL + "/search?limit=\(limit)&type=\(type)&q=\(encodedQuery)"
         
         createRequest(with: URL(string: urlString),
                       type: .GET

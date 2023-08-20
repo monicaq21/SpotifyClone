@@ -12,9 +12,15 @@ struct SearchSection {
     let results: [SearchResult]
 }
 
+protocol SearchResultsViewControllerDelegate: AnyObject {
+    func showResult(_ vc: UIViewController)
+}
+
 class SearchResultsViewController: UIViewController {
     
     private var sections = [SearchSection]()
+    
+    weak var delegate: SearchResultsViewControllerDelegate?
     
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -112,11 +118,32 @@ extension SearchResultsViewController: UITableViewDelegate, UITableViewDataSourc
             cell.textLabel?.text = model.name
         }
         
-
-        
-//        cell.configure(with: result)
-        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let result = sections[indexPath.section].results[indexPath.row]
+        
+        switch result {
+        case .artist(let model):
+            break
+            
+        case .album(let model):
+            let vc = AlbumViewController(album: model)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            delegate?.showResult(vc)
+            
+        case .playlist(let model):
+            let vc = PlaylistViewController(playlist: model)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            delegate?.showResult(vc)
+            
+        case .track(let model):
+            break
+            
+        }
     }
     
 }

@@ -132,6 +132,8 @@ extension SearchViewController: UISearchBarDelegate {
               !query.trimmingCharacters(in: .whitespaces).isEmpty
         else { return }
         
+        resultsController.delegate = self
+        
         APICaller.shared.search(with: query) { result in
             DispatchQueue.main.async {
                 switch result {
@@ -142,5 +144,11 @@ extension SearchViewController: UISearchBarDelegate {
                 }
             }
         }
+    }
+}
+
+extension SearchViewController: SearchResultsViewControllerDelegate {
+    func showResult(_ vc: UIViewController) {
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
