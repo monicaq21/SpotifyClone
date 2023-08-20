@@ -148,7 +148,26 @@ extension SearchViewController: UISearchBarDelegate {
 }
 
 extension SearchViewController: SearchResultsViewControllerDelegate {
-    func showResult(_ vc: UIViewController) {
-        navigationController?.pushViewController(vc, animated: true)
+    func didTapResult(_ result: SearchResult) {
+        
+        switch result {
+        case .artist(let model):
+            break
+            
+        case .album(let model):
+            let vc = AlbumViewController(album: model)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+            
+        case .playlist(let model):
+            let vc = PlaylistViewController(playlist: model)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+            
+        case .track(let model):
+            break
+            
+        }
+
     }
 }

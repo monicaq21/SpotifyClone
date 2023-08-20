@@ -13,7 +13,7 @@ struct SearchSection {
 }
 
 protocol SearchResultsViewControllerDelegate: AnyObject {
-    func showResult(_ vc: UIViewController)
+    func didTapResult(_ result: SearchResult)
 }
 
 class SearchResultsViewController: UIViewController {
@@ -126,24 +126,7 @@ extension SearchResultsViewController: UITableViewDelegate, UITableViewDataSourc
         
         let result = sections[indexPath.section].results[indexPath.row]
         
-        switch result {
-        case .artist(let model):
-            break
-            
-        case .album(let model):
-            let vc = AlbumViewController(album: model)
-            vc.navigationItem.largeTitleDisplayMode = .never
-            delegate?.showResult(vc)
-            
-        case .playlist(let model):
-            let vc = PlaylistViewController(playlist: model)
-            vc.navigationItem.largeTitleDisplayMode = .never
-            delegate?.showResult(vc)
-            
-        case .track(let model):
-            break
-            
-        }
+        delegate?.didTapResult(result)
     }
     
 }
