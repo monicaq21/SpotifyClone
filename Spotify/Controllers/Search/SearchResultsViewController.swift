@@ -24,7 +24,7 @@ class SearchResultsViewController: UIViewController {
     
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(SearchResultDefaultTableViewCell.self, forCellReuseIdentifier: SearchResultDefaultTableViewCell.identifier)
         tableView.isHidden = true
         return tableView
     }()
@@ -104,18 +104,38 @@ extension SearchResultsViewController: UITableViewDelegate, UITableViewDataSourc
         
         let result = sections[indexPath.section].results[indexPath.row]
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? UITableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultDefaultTableViewCell.identifier, for: indexPath) as? SearchResultDefaultTableViewCell
         else { return UITableViewCell() }
         
         switch result {
         case .artist(let model):
-            cell.textLabel?.text = model.name
+            cell.configure(
+                with: SearchResultDefaultTableViewCellViewModel(
+                    title: model.name,
+                    imageURL: nil
+                )
+            )
         case .album(let model):
-            cell.textLabel?.text = model.name
+            cell.configure(
+                with: SearchResultDefaultTableViewCellViewModel(
+                    title: model.name,
+                    imageURL: URL(string: model.images.first?.url ?? "")
+                )
+            )
         case .playlist(let model):
-            cell.textLabel?.text = model.name
+            cell.configure(
+                with: SearchResultDefaultTableViewCellViewModel(
+                    title: model.name,
+                    imageURL: URL(string: model.images.first?.url ?? "")
+                )
+            )
         case .track(let model):
-            cell.textLabel?.text = model.name
+            cell.configure(
+                with: SearchResultDefaultTableViewCellViewModel(
+                    title: model.name,
+                    imageURL: nil
+                )
+            )
         }
         
         return cell
