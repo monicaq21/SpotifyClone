@@ -448,7 +448,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             navigationController?.pushViewController(vc, animated: true)
             
         case .recommendedTracks:
-            break
+            let track = tracks[indexPath.row]
+            PlaybackPresenter.startPlayblack(from: self, track: track)
             
         }
     }

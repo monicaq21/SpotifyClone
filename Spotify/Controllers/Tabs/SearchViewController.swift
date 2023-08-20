@@ -169,9 +169,7 @@ extension SearchViewController: SearchResultsViewControllerDelegate {
             navigationController?.pushViewController(vc, animated: true)
             
         case .track(let model):
-            guard let url = URL(string: model.external_urls["spotify"] ?? "") else { return }
-            let vc = SFSafariViewController(url: url)
-            present(vc, animated: true)
+            PlaybackPresenter.startPlayblack(from: self, track: model)
             
         }
 

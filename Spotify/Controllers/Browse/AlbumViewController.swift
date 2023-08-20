@@ -11,6 +11,7 @@ class AlbumViewController: UIViewController {
     
     private let album: Album
     
+    private var tracks = [AudioTrack]()
     private var viewModels = [AlbumCollectionViewCellViewModel]()
     
     private var collectionView = UICollectionView(
@@ -94,6 +95,8 @@ class AlbumViewController: UIViewController {
                             artistName: detail.artists.first?.name ?? "-"
                         )
                     })
+                    self?.tracks = albumDetails.tracks.items
+                    
                     self?.collectionView.reloadData()
                 case .failure(let error):
                     print(error.localizedDescription)
@@ -161,7 +164,7 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        // xxx play song
+        PlaybackPresenter.startPlayblack(from: self, track: tracks[indexPath.row])
     }
     
 }
@@ -169,7 +172,7 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
 // MARK: - Header Delegate
 extension AlbumViewController: PlaylistHeaderCollectionReusableViewDelegate {
     func didTapPlayAll(_ header: PlaylistHeaderCollectionReusableView) {
-        // xxx play all
+        PlaybackPresenter.startPlayblack(from: self, tracks: tracks)
     }
 
 }

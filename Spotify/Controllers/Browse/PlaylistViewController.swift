@@ -13,6 +13,7 @@ class PlaylistViewController: UIViewController {
     private let playlist: Playlist
     
     private var viewModels = [RecommendedTrackCellViewModel]()
+    private var tracks = [AudioTrack]()
     
     private var collectionView = UICollectionView(
         frame: .zero,
@@ -89,13 +90,15 @@ class PlaylistViewController: UIViewController {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model):
-                    self?.viewModels = model.tracks.items.compactMap({ detail in
+                    self?.viewModels = model.tracks.items.compactMap({ item in
                         RecommendedTrackCellViewModel(
-                            name: detail.track.name,
-                            artworkURL: URL(string: detail.track.album?.images.first?.url ?? ""),
-                            artistName: detail.track.artists.first?.name ?? "-"
+                            name: item.track.name,
+                            artworkURL: URL(string: item.track.album?.images.first?.url ?? ""),
+                            artistName: item.track.artists.first?.name ?? "-"
                         )
                     })
+                    self?.tracks = model.tracks.items.compactMap({ $0.track })
+                    
                     self?.collectionView.reloadData()
                     break
                 case .failure(let error):
@@ -182,7 +185,7 @@ extension PlaylistViewController: UICollectionViewDataSource, UICollectionViewDe
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        // xxx play song
+        PlaybackPresenter.startPlayblack(from: self, track: tracks[indexPath.row])
     }
     
 }
@@ -190,7 +193,7 @@ extension PlaylistViewController: UICollectionViewDataSource, UICollectionViewDe
 // MARK: - Header Delegate
 extension PlaylistViewController: PlaylistHeaderCollectionReusableViewDelegate {
     func didTapPlayAll(_ header: PlaylistHeaderCollectionReusableView) {
-        print("play all")
+        PlaybackPresenter.startPlayblack(from: self, tracks: tracks)
     }
     
     
