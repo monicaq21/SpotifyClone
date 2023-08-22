@@ -169,7 +169,7 @@ extension SearchViewController: SearchResultsViewControllerDelegate {
             navigationController?.pushViewController(vc, animated: true)
             
         case .track(let model):
-            PlaybackPresenter.startPlayblack(from: self, track: model)
+            PlaybackPresenter.shared.startPlayback(from: self, track: model)
             
         }
 

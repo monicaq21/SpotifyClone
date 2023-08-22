@@ -164,7 +164,7 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        PlaybackPresenter.startPlayblack(from: self, track: tracks[indexPath.row])
+        PlaybackPresenter.shared.startPlayback(from: self, track: tracks[indexPath.row])
     }
     
 }
@@ -172,7 +172,7 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
 // MARK: - Header Delegate
 extension AlbumViewController: PlaylistHeaderCollectionReusableViewDelegate {
     func didTapPlayAll(_ header: PlaylistHeaderCollectionReusableView) {
-        PlaybackPresenter.startPlayblack(from: self, tracks: tracks)
+        PlaybackPresenter.shared.startPlayback(from: self, tracks: tracks)
     }
 
 }
