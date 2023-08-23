@@ -36,12 +36,6 @@ class PlayerViewController: UIViewController {
         view.addSubview(imageView)
         view.addSubview(controlsView)
         controlsView.delegate = self
-        controlsView.configure(
-            with: PlayerControlsViewViewModel(
-                title: dataSource?.songName,
-                subtitle: dataSource?.subtitle
-            )
-        )
         
         configureBarButtons()
         configureDataSource()
@@ -70,7 +64,14 @@ class PlayerViewController: UIViewController {
     }
     
     private func configureDataSource() {
+        
         imageView.sd_setImage(with: dataSource?.imageURL, completed: nil)
+        controlsView.configure(
+            with: PlayerControlsViewViewModel(
+                title: dataSource?.songName,
+                subtitle: dataSource?.subtitle
+            )
+        )
     }
     
     @objc private func didTapClose() {
@@ -79,6 +80,10 @@ class PlayerViewController: UIViewController {
     
     @objc private func didTapAction() {
         print("action")
+    }
+    
+    func refreshUI() {
+        configureDataSource()
     }
 
 }
