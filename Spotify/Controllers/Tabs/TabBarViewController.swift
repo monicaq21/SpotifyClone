@@ -13,7 +13,6 @@ class TabBarViewController: UITabBarController {
         super.viewDidLoad()
         
         setupTabBar()
-        
     }
     
     func setupTabBar() {

@@ -41,6 +41,9 @@
 		8D4D608E2A92A810004AC84C /* PlaybackPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4D608D2A92A810004AC84C /* PlaybackPresenter.swift */; };
 		8D4D60902A92ABE3004AC84C /* PlayerControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4D608F2A92ABE3004AC84C /* PlayerControlsView.swift */; };
 		8D8D47392A80C49C00A1DE4E /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8D47382A80C49C00A1DE4E /* AuthResponse.swift */; };
+		8DDAB7342A95C88700974FC3 /* LibraryPlaylistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DDAB7332A95C88700974FC3 /* LibraryPlaylistsViewController.swift */; };
+		8DDAB7362A95C89800974FC3 /* LibraryAlbumsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DDAB7352A95C89800974FC3 /* LibraryAlbumsViewController.swift */; };
+		8DDAB7392A95CB0600974FC3 /* LibraryToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DDAB7382A95CB0600974FC3 /* LibraryToggleView.swift */; };
 		8DF33AD52A80496400B05190 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF33AD42A80496400B05190 /* AppDelegate.swift */; };
 		8DF33AD72A80496400B05190 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF33AD62A80496400B05190 /* SceneDelegate.swift */; };
 		8DF33AD92A80496400B05190 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF33AD82A80496400B05190 /* HomeViewController.swift */; };
@@ -121,6 +124,9 @@
 		8D4D608D2A92A810004AC84C /* PlaybackPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackPresenter.swift; sourceTree = "<group>"; };
 		8D4D608F2A92ABE3004AC84C /* PlayerControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControlsView.swift; sourceTree = "<group>"; };
 		8D8D47382A80C49C00A1DE4E /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
+		8DDAB7332A95C88700974FC3 /* LibraryPlaylistsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPlaylistsViewController.swift; sourceTree = "<group>"; };
+		8DDAB7352A95C89800974FC3 /* LibraryAlbumsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryAlbumsViewController.swift; sourceTree = "<group>"; };
+		8DDAB7382A95CB0600974FC3 /* LibraryToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryToggleView.swift; sourceTree = "<group>"; };
 		8DF33AD12A80496400B05190 /* Spotify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spotify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DF33AD42A80496400B05190 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8DF33AD62A80496400B05190 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -286,6 +292,23 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
+		8DDAB7322A95C87100974FC3 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				8DDAB7332A95C88700974FC3 /* LibraryPlaylistsViewController.swift */,
+				8DDAB7352A95C89800974FC3 /* LibraryAlbumsViewController.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		8DDAB7372A95CAEE00974FC3 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				8DDAB7382A95CB0600974FC3 /* LibraryToggleView.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
 		8DF33AC82A80496400B05190 = {
 			isa = PBXGroup;
 			children = (
@@ -377,6 +400,7 @@
 				8D4D60752A905C47004AC84C /* Onboarding */,
 				8D4D60742A905C10004AC84C /* Browse */,
 				8D4D60772A905C5E004AC84C /* Search */,
+				8DDAB7322A95C87100974FC3 /* Library */,
 				8D4D60762A905C4B004AC84C /* Settings */,
 				8DF33B112A804CF100B05190 /* Others */,
 			);
@@ -398,6 +422,7 @@
 			children = (
 				8D4D60572A85BEAE004AC84C /* Browse */,
 				8D4D607E2A908BDD004AC84C /* Search */,
+				8DDAB7372A95CAEE00974FC3 /* Library */,
 				8DF33ADF2A80496500B05190 /* LaunchScreen.storyboard */,
 				8D4D606A2A8DB0E3004AC84C /* PlaylistHeaderCollectionReusableView.swift */,
 				8D4D606E2A8EFFF3004AC84C /* TitleHeaderCollectionReusableView.swift */,
@@ -615,6 +640,7 @@
 				8D4D607D2A908A72004AC84C /* CategoryCollectionViewCellViewModel.swift in Sources */,
 				8DF33B0F2A804CE200B05190 /* HapticsManager.swift in Sources */,
 				8D4D60592A85BECC004AC84C /* NewReleaseCollectionViewCell.swift in Sources */,
+				8DDAB7392A95CB0600974FC3 /* LibraryToggleView.swift in Sources */,
 				8D4D605D2A85BEED004AC84C /* RecommendedTrackCollectionViewCell.swift in Sources */,
 				8D4D60632A89F9D9004AC84C /* RecommendedTrackCellViewModel.swift in Sources */,
 				8D4D60612A89F9B7004AC84C /* FeaturedPlaylistCellViewModel.swift in Sources */,
@@ -639,6 +665,7 @@
 				8DF33AD52A80496400B05190 /* AppDelegate.swift in Sources */,
 				8D4D60892A9277CD004AC84C /* SearchResultSubtitleTableViewCell.swift in Sources */,
 				8DF33B0D2A804CDB00B05190 /* APICaller.swift in Sources */,
+				8DDAB7362A95C89800974FC3 /* LibraryAlbumsViewController.swift in Sources */,
 				8DF33B272A804DCA00B05190 /* SearchResultsViewController.swift in Sources */,
 				8D4D60792A9062D3004AC84C /* CategoryCollectionViewCell.swift in Sources */,
 				8DF33B2F2A804DF600B05190 /* UserProfile.swift in Sources */,
@@ -658,6 +685,7 @@
 				8DF33B1D2A804D5300B05190 /* PlayerViewController.swift in Sources */,
 				8DF33B252A804DAB00B05190 /* TabBarViewController.swift in Sources */,
 				8D4D60822A91B951004AC84C /* SearchResultResponse.swift in Sources */,
+				8DDAB7342A95C88700974FC3 /* LibraryPlaylistsViewController.swift in Sources */,
 				8D4D60512A84C603004AC84C /* Album.swift in Sources */,
 				8DF33B192A804D4200B05190 /* SettingsViewController.swift in Sources */,
 				8D4D60802A908C16004AC84C /* CategoryViewController.swift in Sources */,
