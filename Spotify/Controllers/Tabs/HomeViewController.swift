@@ -117,7 +117,11 @@ class HomeViewController: UIViewController {
                 let vc = LibraryPlaylistsViewController()
                 vc.selectionHandler = { playlist in
                     APICaller.shared.addTrackToPlaylist(track: model, playlist: playlist) { success in
-                        print("Added track to playlist success: \(success)")
+                        if success {
+                            HapticsManager.shared.vibrate(for: .success)
+                        } else {
+                            HapticsManager.shared.vibrate(for: .error)
+                        }
                     }
                 }
                 vc.title = "Select Playlist"
@@ -476,6 +480,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         collectionView.deselectItem(at: indexPath, animated: true)
+        HapticsManager.shared.vibrateForSelection()
         
         switch sections[indexPath.section] {
         case .newReleases:
