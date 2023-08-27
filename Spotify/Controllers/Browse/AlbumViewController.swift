@@ -85,6 +85,30 @@ class AlbumViewController: UIViewController {
             withReuseIdentifier: PlaylistHeaderCollectionReusableView.identifier
         )
         
+        fetchData()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(didTapActions)
+        )
+    }
+    
+    @objc func didTapActions() {
+        let actionSheet = UIAlertController(
+            title: album.name,
+            message: "Actions",
+            preferredStyle: .actionSheet
+        )
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        actionSheet.addAction(UIAlertAction(title: "Save Album", style: .default, handler: { _ in
+//            APICaller.shared.saveAlbum
+        }))
+        
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    private func fetchData() {
         APICaller.shared.getAlbumDetails(for: album) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
