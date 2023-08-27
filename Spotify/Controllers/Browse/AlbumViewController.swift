@@ -96,16 +96,20 @@ class AlbumViewController: UIViewController {
     @objc func didTapActions() {
         let actionSheet = UIAlertController(
             title: album.name,
-            message: "Actions",
+            message: album.artists.first?.name ?? "Unknown Artist",
             preferredStyle: .actionSheet
         )
         
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        actionSheet.addAction(UIAlertAction(title: "Save Album", style: .default, handler: { _ in
-//            APICaller.shared.saveAlbum
+        actionSheet.addAction(UIAlertAction(title: "Save Album", style: .default, handler: { [weak self] _ in
+            guard let self else { return }
+            
+            APICaller.shared.saveAlbum(album: album) { success in
+                print("Saved album: \(success)")
+            }
         }))
         
-        present(actionSheet, animated: true, completion: nil)
+        present(actionSheet, animated: true)
     }
     
     private func fetchData() {
