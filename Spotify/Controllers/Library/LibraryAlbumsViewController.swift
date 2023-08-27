@@ -35,8 +35,7 @@ class LibraryAlbumsViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        noAlbumsView.frame = CGRect(x: 0, y: 0, width: 150, height: 150)
-        noAlbumsView.center = view.center
+        noAlbumsView.frame = CGRect(x: (view.width-150)/2, y: (view.height-150)/2, width: 150, height: 150)
         tableView.frame = view.bounds
     }
     
@@ -45,6 +44,7 @@ class LibraryAlbumsViewController: UIViewController {
     }
     
     private func fetchData() {
+        updateUI()
         APICaller.shared.getCurrentUserAlbums { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
@@ -53,10 +53,10 @@ class LibraryAlbumsViewController: UIViewController {
                     self?.updateUI()
                 case .failure(let error):
                     print(error.localizedDescription)
-                    
+
                 }
             }
-            
+
         }
     }
     
