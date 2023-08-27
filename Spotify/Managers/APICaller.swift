@@ -131,8 +131,9 @@ final class APICaller {
     // MARK: - Albums
     
     public func getAlbumDetails(for album: Album, completion: @escaping (Result<AlbumDetailsResponse, Error>) -> Void) {
-        createRequest(with: URL(string: Constants.baseAPIURL + "/albums/" + album.id),
-                      type: .GET
+        createRequest(
+            with: URL(string: Constants.baseAPIURL + "/albums/" + album.id),
+            type: .GET
         ) { request in
             let task = URLSession.shared.dataTask(with: request) { data, _, error in
                 guard let data = data, error == nil else {
@@ -152,6 +153,30 @@ final class APICaller {
         }
     }
     
+    public func getCurrentUserAlbums(completion: @escaping (Result<[Album], Error>) -> Void) {
+        createRequest(
+            with: URL(string: Constants.baseAPIURL + "/me/albums/"),
+            type: .GET
+        ) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                
+                do {
+                    let model = try JSONDecoder().decode(LibraryAlbumsResponse.self, from: data)
+                    completion(.success(model.items.compactMap({ savedAlbum in
+                        savedAlbum.album
+                    })))
+                } catch {
+                    print(error)
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+    }
     
     // MARK: - Playlists
     
