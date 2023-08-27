@@ -19,6 +19,9 @@ class LibraryAlbumsViewController: UIViewController {
         tableView.isHidden = true
         return tableView
     }()
+    
+    // observe for new albums saved to update
+    private var observer: NSObjectProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +33,15 @@ class LibraryAlbumsViewController: UIViewController {
         
         setupNoAlbumsView()
         fetchData()
+        
+        observer = NotificationCenter.default.addObserver(
+            forName: .albumSavedNotification,
+            object: nil,
+            queue: .main,
+            using: { [weak self] _ in
+                self?.fetchData()
+            }
+        )
         
     }
     
@@ -44,7 +56,8 @@ class LibraryAlbumsViewController: UIViewController {
     }
     
     private func fetchData() {
-        updateUI()
+        albums.removeAll()
+        
         APICaller.shared.getCurrentUserAlbums { [weak self] result in
             DispatchQueue.main.async {
                 switch result {

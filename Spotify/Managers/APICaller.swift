@@ -193,7 +193,7 @@ final class APICaller {
                     completion(false)
                     return
                 }
-                completion(code == 201)
+                completion(code == 200 || code == 201)
                 
             }
             task.resume()
