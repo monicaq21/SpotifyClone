@@ -62,6 +62,18 @@ class SettingsViewController: UIViewController {
     }
     
     private func signOutTapped() {
+        
+        let alert = UIAlertController(title: "Sign Out", message: "Are you sure?", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { [weak self] _ in
+            self?.executeSignOut()
+        }))
+        
+        present(alert, animated: true)
+    }
+    
+    private func executeSignOut() {
         AuthManager.shared.signOut { [weak self] signedOut in
             guard let self else { return }
             if signedOut {
