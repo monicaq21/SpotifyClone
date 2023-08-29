@@ -62,7 +62,21 @@ class SettingsViewController: UIViewController {
     }
     
     private func signOutTapped() {
-        // to implement xxx
+        AuthManager.shared.signOut { [weak self] signedOut in
+            guard let self else { return }
+            if signedOut {
+                // show welcome screen
+                DispatchQueue.main.async {
+                    let welcomeVC = UINavigationController(rootViewController: WelcomeViewController())
+                    welcomeVC.navigationBar.prefersLargeTitles = true
+                    welcomeVC.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
+                    welcomeVC.modalPresentationStyle = .fullScreen
+                    self.present(welcomeVC, animated: true) {
+                        self.navigationController?.popToRootViewController(animated: false) // this pops all navigation VCs off the stack, so only the welcomeVC remains in the hierarchy.
+                    }
+                }
+            }
+        }
     }
 
 }
